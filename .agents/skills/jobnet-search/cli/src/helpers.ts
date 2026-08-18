@@ -43,6 +43,10 @@ export function writeError(error: string, code: string): void {
   process.stderr.write(JSON.stringify({ error, code }) + "\n")
 }
 
+function numericEntity(cp: number): string {
+  return cp >= 0 && cp <= 0x10ffff ? String.fromCodePoint(cp) : ""
+}
+
 export function stripHtml(html: string): string {
   return html
     .replace(/<[^>]*>/g, " ")
@@ -51,6 +55,9 @@ export function stripHtml(html: string): string {
     .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
+    .replace(/&apos;/g, "'")
+    .replace(/&#(\d+);/g, (_, dec) => numericEntity(parseInt(dec, 10)))
+    .replace(/&#[xX]([0-9a-fA-F]+);/g, (_, hex) => numericEntity(parseInt(hex, 16)))
     .replace(/&nbsp;/g, " ")
     .replace(/\s+/g, " ")
     .trim()
