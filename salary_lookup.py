@@ -21,7 +21,6 @@ import json
 import sys
 import re
 import argparse
-import unicodedata
 from pathlib import Path
 
 DATA_FILE = Path(__file__).parent / "salary_data.json"
