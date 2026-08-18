@@ -137,7 +137,11 @@ export const search = defineCommand({
       let results = items.map((item) => {
         const parsed = parseRssDescription(item.description)
         const id = extractJobIdFromUrl(item.link)
-        const posted = item.pubDate ? new Date(item.pubDate).toISOString() : ""
+        let posted = ""
+        if (item.pubDate) {
+          const d = new Date(item.pubDate)
+          posted = isNaN(d.getTime()) ? "" : d.toISOString()
+        }
         return {
           id,
           title: item.title,
