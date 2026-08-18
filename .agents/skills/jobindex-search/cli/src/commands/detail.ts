@@ -1,6 +1,6 @@
 import { defineCommand, option } from "@bunli/core"
 import { z } from "zod"
-import { htmlFetch, writeError, extractDivContent } from "../helpers.js"
+import { htmlFetch, writeError, extractDivContent, decodeHtmlEntities, stripTags } from "../helpers.js"
 
 const BASE_URL = "https://www.jobindex.dk"
 
@@ -17,39 +17,6 @@ interface DetailResult {
   applyUrl: string | null
   url: string
   description: string | null
-}
-
-/**
- * Convert a Unicode code point to a string. Uses `fromCodePoint` (not
- * `fromCharCode`) so supplementary-plane code points (e.g. emoji, U+1F600)
- * decode correctly, and drops out-of-range values instead of throwing.
- */
-function numericEntity(cp: number): string {
-  return cp >= 0 && cp <= 0x10ffff ? String.fromCodePoint(cp) : ""
-}
-
-/**
- * Decode HTML entities in text
- */
-function decodeHtmlEntities(text: string): string {
-  return text
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&apos;/g, "'")
-    // Numeric character references: decimal (&#233;) and hexadecimal (&#xE9;).
-    .replace(/&#(\d+);/g, (_, dec) => numericEntity(parseInt(dec, 10)))
-    .replace(/&#[xX]([0-9a-fA-F]+);/g, (_, hex) => numericEntity(parseInt(hex, 16)))
-    .replace(/&nbsp;/g, " ")
-}
-
-/**
- * Strip HTML tags from text
- */
-function stripTags(html: string): string {
-  return html.replace(/<[^>]+>/g, "").trim()
 }
 
 /**

@@ -193,7 +193,7 @@ function numericEntity(cp: number): string {
 /**
  * Decode HTML entities in text
  */
-function decodeHtmlEntities(text: string): string {
+export function decodeHtmlEntities(text: string): string {
   return text
     .replace(/&amp;/g, "&")
     .replace(/&lt;/g, "<")
@@ -210,7 +210,7 @@ function decodeHtmlEntities(text: string): string {
 /**
  * Strip HTML tags from text
  */
-function stripTags(html: string): string {
+export function stripTags(html: string): string {
   return html.replace(/<[^>]+>/g, "").trim()
 }
 

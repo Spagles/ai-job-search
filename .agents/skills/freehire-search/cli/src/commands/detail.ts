@@ -38,22 +38,7 @@ export async function runDetail(opts: DetailOpts): Promise<number> {
     const job = toDetail(env.data)
 
     if (opts.format === "plain") {
-      const lines = [
-        job.title,
-        `${job.company || "—"} · ${job.location || "—"}`,
-        job.date ? `Posted: ${job.date.slice(0, 10)}` : "",
-        job.seniority ? `Seniority: ${job.seniority}` : "",
-        job.category ? `Category: ${job.category}` : "",
-        job.employment_type ? `Employment: ${job.employment_type}` : "",
-        job.salary ? `Salary: ${job.salary}` : "",
-        job.skills.length ? `Skills: ${job.skills.join(", ")}` : "",
-        "",
-        job.description || "(no description)",
-        "",
-        `URL: ${job.url}`,
-        `slug: ${job.id}`,
-      ].filter((l) => l !== "")
-      process.stdout.write(lines.join("\n") + "\n")
+      process.stdout.write(renderPlain(job) + "\n")
     } else {
       process.stdout.write(JSON.stringify(job, null, 2) + "\n")
     }

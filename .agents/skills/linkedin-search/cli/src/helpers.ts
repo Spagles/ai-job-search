@@ -128,12 +128,6 @@ function clean(html: string): string {
   return decodeHtmlEntities(stripTags(html))
 }
 
-/** Parse the job ID out of a LinkedIn job-view URL or URN. */
-function idFromUrl(url: string): string | null {
-  const m = url.match(/-(\d{6,})(?:\?|$)/) || url.match(/(\d{6,})/)
-  return m ? m[1] : null
-}
-
 /**
  * Parse the search response: a flat list of <li> job cards. We split on the
  * job-posting URN and parse each chunk independently so one malformed card

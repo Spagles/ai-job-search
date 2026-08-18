@@ -1,7 +1,7 @@
 import { defineCommand, option } from "@bunli/core"
 import { z } from "zod"
 import { parse } from "node-html-parser"
-import { BASE_URL, writeError } from "../helpers.js"
+import { BASE_URL, USER_AGENT, writeError } from "../helpers.js"
 
 interface JsonLdJobPosting {
   "@context"?: string
@@ -222,7 +222,7 @@ export const detail = defineCommand({
       const response = await fetch(url, {
         headers: {
           "Accept": "text/html,application/xhtml+xml",
-          "User-Agent": "Mozilla/5.0 (compatible; jobdanmark-cli/1.0)",
+          "User-Agent": USER_AGENT,
         },
         signal: AbortSignal.timeout(15000),
       })
